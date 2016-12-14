@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Fork
+- Added sleep for minimize server load
+- Don't print to console "No Jobs"
+
 ## 1.3.0
 - Added implementation for DbQueue and RedisQueue.
 - Added events for queue.

@@ -1,14 +1,8 @@
 # Queue Component for Yii2
 
-This provides queue component for Yii2.
+This provides queue component for Yii2 (fork urbanindo/yii2-queue). 
 
-[![Latest Stable Version](https://poser.pugx.org/urbanindo/yii2-queue/v/stable.svg)](https://packagist.org/packages/urbanindo/yii2-queue)
-[![Total Downloads](https://poser.pugx.org/urbanindo/yii2-queue/downloads.svg)](https://packagist.org/packages/urbanindo/yii2-queue)
-[![Latest Unstable Version](https://poser.pugx.org/urbanindo/yii2-queue/v/unstable.svg)](https://packagist.org/packages/urbanindo/yii2-queue)
-[![Build Status](https://travis-ci.org/urbanindo/yii2-queue.svg)](https://travis-ci.org/urbanindo/yii2-queue)
-
-## Requirements
-You need [PCNT extension](http://php.net/manual/en/book.pcntl.php) enabled to run listener
+Update: no server load + better readme to start using this package.
 
 ## Installation
 
@@ -17,13 +11,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist urbanindo/yii2-queue "*"
-```
-
-or add
-
-```
-"urbanindo/yii2-queue": "*"
+composer require --prefer-dist vlodkow/yii2-queue "*"
 ```
 
 to the require section of your `composer.json` file.
@@ -33,22 +21,18 @@ To use Redis queue or RabbitMQ, you have to add `yiisoft/yii2-redis:*` or
 
 ## Setting Up
 
-After the installation, first step is to set the console controller.
+After the installation, first step is to set the console controller (config/console.php).
 
 ```php
 return [
     // ...
     'controllerMap' => [
-        'queue' => [
-            'class' => 'UrbanIndo\Yii2\Queue\Console\Controller',
-            //'sleepTimeout' => 1
-        ],
-        
+        'queue' => 'UrbanIndo\Yii2\Queue\Console\Controller'
     ],
 ];
 ```
 
-For the task worker, set a new module, e.g. `task` and declare it in the config.
+For the task worker, set a new module, e.g. `task` and declare it in the config (config/console.php).
 
 ```php
 'modules' => [
@@ -59,7 +43,7 @@ For the task worker, set a new module, e.g. `task` and declare it in the config.
 ```
 
 And then set the queue component. Don't forget to set the module name that runs
-the task in the component. For example, queue using AWS SQS
+the task in the component (config/console.php and config/web.php). For example, queue using AWS SQS:
 
 ```php
 'components' => [
@@ -94,6 +78,8 @@ Or using Database queue
 ```
 
 ## Usage
+
+For mysql import table from db.sql
 
 ### Creating A Worker
 
@@ -218,7 +204,7 @@ For example
     'controllerMap' => [
         'queue' => [
             /* @var $queue UrbanIndo\Yii2\Queue\Web\Controller */
-            'class' => 'UrbanIndo\Yii2\Queue\Web\Controller'
+            'class' => 'UrbanIndo\Yii2\Queue\Web\Controller',
         ]
     ],
 ```

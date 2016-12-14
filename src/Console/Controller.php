@@ -50,32 +50,23 @@ class Controller extends \yii\console\Controller
      * @var string|array|Queue the name of the queue component. default to 'queue'.
      */
     public $queue = 'queue';
-    
-    /**
-     * @var integer sleep timeout for infinite loop in second
-     */
-    public $sleepTimeout = 0;
 
     /**
      * @var string the name of the command.
      */
     private $_name = 'queue';
-    
+
+    /*
+     * Job sleep
+     */
+    public $sleep = 2;
+
     /**
      * @return void
      */
     public function init()
     {
         parent::init();
-        
-        if (!is_numeric($this->sleepTimeout)) {
-            throw new InvalidParamException('($sleepTimeout) must be an number');
-        }
-
-        if ($this->sleepTimeout < 0) {
-            throw new InvalidParamException('($sleepTimeout) must be greater or equal than 0');
-        }
-        
         $this->queue = \yii\di\Instance::ensure($this->queue, Queue::className());
     }
 
@@ -97,15 +88,15 @@ class Controller extends \yii\console\Controller
      */
     protected function getScriptPath()
     {
-        return getcwd() . DIRECTORY_SEPARATOR . $_SERVER['argv'][0];
+        return getcwd().DIRECTORY_SEPARATOR.$_SERVER['argv'][0];
     }
 
     /**
      * This will continuously run new subprocesses to fetch job from the queue.
      *
-     * @param string  $cwd     The working directory.
+     * @param string $cwd The working directory.
      * @param integer $timeout Timeout.
-     * @param array   $env     The environment to passed to the sub process.
+     * @param array $env The environment to passed to the sub process.
      * The format for each element is 'KEY=VAL'.
      * @return void
      */
@@ -113,50 +104,38 @@ class Controller extends \yii\console\Controller
     {
         $this->stdout("Listening to queue...\n");
         $this->initSignalHandler();
-        $command = PHP_BINARY . " {$this->getScriptPath()} {$this->_name}/run";
+        $command = PHP_BINARY." {$this->getScriptPath()} {$this->_name}/run";
         declare(ticks = 1);
         while (true) {
-            $this->stdout("Running new process...\n");
+            // Running new process...
             $this->runQueueFetching($command, $cwd, $timeout, $env);
-            if ($this->sleepTimeout > 0) {
-                sleep($this->sleepTimeout);
-            }
+            sleep($this->sleep);
         }
         $this->stdout("Exiting...\n");
     }
 
     /**
      * Run the queue fetching process.
-     * @param string  $command The command.
-     * @param string  $cwd     The working directory.
+     * @param string $command The command.
+     * @param string $cwd The working directory.
      * @param integer $timeout The timeout.
-     * @param array   $env     The environment to be passed.
+     * @param array $env The environment to be passed.
      * @return void
      */
-    protected function runQueueFetching(
-        $command,
-        $cwd = null,
-        $timeout = null,
-        array $env = []
-    ) {
-        $process = new \Symfony\Component\Process\Process(
-            $command,
-            isset($cwd) ? $cwd : getcwd(),
-            $env,
-            null,
-            $timeout
-        );
+    protected function runQueueFetching($command, $cwd = null, $timeout = null, array $env = [])
+    {
+        $process = new \Symfony\Component\Process\Process($command, isset($cwd) ? $cwd : getcwd(), $env, null, $timeout);
         $process->setTimeout($timeout);
         $process->setIdleTimeout(null);
         $process->run();
         if ($process->isSuccessful()) {
             //TODO logging.
-            $this->stdout($process->getOutput() . PHP_EOL);
-            $this->stdout($process->getErrorOutput() . PHP_EOL);
+            $this->stdout($process->getOutput().PHP_EOL);
+            $this->stdout($process->getErrorOutput().PHP_EOL);
         } else {
             //TODO logging.
-            $this->stdout($process->getOutput() . PHP_EOL);
-            $this->stdout($process->getErrorOutput() . PHP_EOL);
+            $this->stdout($process->getOutput().PHP_EOL);
+            $this->stdout($process->getErrorOutput().PHP_EOL);
         }
     }
 
@@ -191,17 +170,15 @@ class Controller extends \yii\console\Controller
     {
         $job = $this->queue->fetch();
         if ($job !== false) {
-            $this->stdout("Running job #: {$job->id}" . PHP_EOL);
+            $this->stdout("Running job #: {$job->id}".PHP_EOL);
             $this->queue->run($job);
-        } else {
-            $this->stdout("No job\n");
         }
     }
 
     /**
      * Post a job to the queue.
      * @param string $route The route.
-     * @param string $data  The data in JSON format.
+     * @param string $data The data in JSON format.
      * @return void
      */
     public function actionPost($route, $data = '{}')
@@ -217,7 +194,7 @@ class Controller extends \yii\console\Controller
      * This is useful to test the task controller.
      *
      * @param string $route The route.
-     * @param string $data  The data in JSON format.
+     * @param string $data The data in JSON format.
      * @return void
      */
     public function actionRunTask($route, $data = '{}')
@@ -242,7 +219,7 @@ class Controller extends \yii\console\Controller
      * Create a job from route and data.
      *
      * @param string $route The route.
-     * @param string $data  The JSON data.
+     * @param string $data The JSON data.
      * @return Job
      */
     protected function createJob($route, $data = '{}')
@@ -265,7 +242,7 @@ class Controller extends \yii\console\Controller
         for ($i = 0; $i < $count; $i++) {
             $job = $this->queue->fetch();
             if ($job !== false) {
-                $this->stdout("Peeking job #: {$job->id}" . PHP_EOL);
+                $this->stdout("Peeking job #: {$job->id}".PHP_EOL);
                 $this->stdout(\yii\helpers\Json::encode($job));
             }
         }
@@ -284,7 +261,7 @@ class Controller extends \yii\console\Controller
         for ($i = 0; $i < $count; $i++) {
             $job = $queue->fetch();
             if ($job !== false) {
-                $this->stdout("Purging job #: {$job->id}" . PHP_EOL);
+                $this->stdout("Purging job #: {$job->id}".PHP_EOL);
                 $queue->delete($job);
             }
         }
