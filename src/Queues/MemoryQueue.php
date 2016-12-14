@@ -6,9 +6,9 @@
  * @since 2015.06.01
  */
 
-namespace UrbanIndo\Yii2\Queue\Queues;
+namespace Vlodkow\Yii2\Queue\Queues;
 
-use UrbanIndo\Yii2\Queue\Job;
+use Vlodkow\Yii2\Queue\Job;
 
 /**
  * MemoryQueue stores queue in the local variable.
@@ -18,7 +18,7 @@ use UrbanIndo\Yii2\Queue\Job;
  * @author Petra Barus <petra.barus@gmail.com>
  * @since 2015.06.01
  */
-class MemoryQueue extends \UrbanIndo\Yii2\Queue\Queue
+class MemoryQueue extends \Vlodkow\Yii2\Queue\Queue
 {
     
     /**

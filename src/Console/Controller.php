@@ -6,10 +6,10 @@
  * @since 2015.02.24
  */
 
-namespace UrbanIndo\Yii2\Queue\Console;
+namespace Vlodkow\Yii2\Queue\Console;
 
-use UrbanIndo\Yii2\Queue\Job;
-use UrbanIndo\Yii2\Queue\Queue;
+use Vlodkow\Yii2\Queue\Job;
+use Vlodkow\Yii2\Queue\Queue;
 use yii\base\InvalidParamException;
 
 /**
@@ -20,7 +20,7 @@ use yii\base\InvalidParamException;
  * return [
  *    // ...
  *     'controllerMap' => [
- *         'queue' => 'UrbanIndo\Yii2\Queue\Console\QueueController'
+ *         'queue' => 'Vlodkow\Yii2\Queue\Console\QueueController'
  *     ],
  * ];
  * 
@@ -30,7 +30,7 @@ use yii\base\InvalidParamException;
  *    // ...
  *     'controllerMap' => [
  *         'queue' => [
- *              'class' => 'UrbanIndo\Yii2\Queue\Console\QueueController',
+ *              'class' => 'Vlodkow\Yii2\Queue\Console\QueueController',
  *              'sleepTimeout' => 1
  *          ]
  *     ],

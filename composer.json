@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "UrbanIndo\\Yii2\\Queue\\": "src/"
+            "Vlodkow\\Yii2\\Queue\\": "src/"
         }
     }
 
