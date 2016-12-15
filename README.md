@@ -8,10 +8,24 @@ Update: no server load + better readme to start using this package.
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
-Either run
+Either run, add:
 
 ```
-composer require --prefer-dist vlodkow/yii2-queue "*"
+"repositories": [{
+    "type": "package",
+    "package": {
+      "name": "vlodkow/yii2-queue",
+      "version": "1.3.0",
+      "source": {
+        "url": "git@github.com:vlodkow/yii2-queue.git",
+        "type": "git",
+        "reference": "1.3.0"
+      }
+    }
+  }],
+  "require": {
+    "vlodkow/yii2-queue": "1.3.*"
+  }
 ```
 
 to the require section of your `composer.json` file.

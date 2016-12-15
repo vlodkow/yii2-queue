@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## Fork
+## 1.3.1 (fork)
 - Added sleep for minimize server load
 - Don't print to console "No Jobs"
 
