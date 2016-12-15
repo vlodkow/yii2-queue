@@ -15,11 +15,11 @@ Either run, add:
     "type": "package",
     "package": {
       "name": "vlodkow/yii2-queue",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "source": {
         "url": "git@github.com:vlodkow/yii2-queue.git",
         "type": "git",
-        "reference": "1.3.0"
+        "reference": "1.3.1"
       }
     }
   }],
