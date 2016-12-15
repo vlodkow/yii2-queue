@@ -41,7 +41,8 @@ After the installation, first step is to set the console controller (config/cons
 return [
     // ...
     'controllerMap' => [
-        'queue' => 'Vlodkow\Yii2\Queue\Console\Controller'
+        'queue' => 'Vlodkow\Yii2\Queue\Console\Controller',
+        'sleep' => 2
     ],
 ];
 ```

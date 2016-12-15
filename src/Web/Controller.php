@@ -18,6 +18,7 @@ use Vlodkow\Yii2\Queue\Queues\MultipleQueue;
  *
  *    'controllerMap' => [
  *         'queue' => 'Vlodkow\Yii2\Queue\Web\Controller',
+ *         'sleep' => 2
  *    ]
  *
  * And then send a POST to the endpoint
