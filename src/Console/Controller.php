@@ -124,7 +124,7 @@ class Controller extends \yii\console\Controller
      * @param string $cwd The working directory.
      * @param integer $timeout The timeout.
      * @param array $env The environment to be passed.
-     * @return void
+     * @return boolean
      */
     protected function runQueueFetching($command, $cwd = null, $timeout = null, array $env = [])
     {
@@ -136,6 +136,8 @@ class Controller extends \yii\console\Controller
             //TODO logging.
             $this->stdout($process->getOutput().PHP_EOL);
             $this->stdout($process->getErrorOutput().PHP_EOL);
+
+            return true;
         } else {
             //TODO logging.
             if (!empty($this->slack_url)) {
@@ -151,6 +153,8 @@ class Controller extends \yii\console\Controller
 
             $this->stdout($process->getOutput().PHP_EOL);
             $this->stdout($process->getErrorOutput().PHP_EOL);
+
+            return false;
         }
     }
 
