@@ -2,7 +2,7 @@
     "name": "vlodkow/yii2-queue",
     "description": "Queue component for Yii2",
     "license": "MIT",
-    "version": "1.3.1",
+    "version": "1.3.2",
     "authors": [
         {
             "name": "Vlodkow",
@@ -14,7 +14,8 @@
         "php": ">=5.5.0",
         "yiisoft/yii2": "*",
         "symfony/process": ">=2.4",
-        "jeremeamia/SuperClosure": "~2.0"
+        "jeremeamia/SuperClosure": "~2.0",
+        "php-curl-class/php-curl-class": "*"
     },
     "require-dev": {
         "flow/jsonpath": "dev-master",

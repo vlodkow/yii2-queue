@@ -11,6 +11,7 @@ namespace Vlodkow\Yii2\Queue\Console;
 use Vlodkow\Yii2\Queue\Job;
 use Vlodkow\Yii2\Queue\Queue;
 use yii\base\InvalidParamException;
+use \Curl\Curl;
 
 /**
  * QueueController handles console command for running the queue.
@@ -61,6 +62,8 @@ class Controller extends \yii\console\Controller
      */
     public $sleep = 2;
 
+    public $slack_url = null;
+
     /**
      * @return void
      */
@@ -106,9 +109,10 @@ class Controller extends \yii\console\Controller
         $this->initSignalHandler();
         $command = PHP_BINARY." {$this->getScriptPath()} {$this->_name}/run";
         declare(ticks = 1);
-        while (true) {
+        $noError = true;
+        while ($noError) {
             // Running new process...
-            $this->runQueueFetching($command, $cwd, $timeout, $env);
+            $noError = $this->runQueueFetching($command, $cwd, $timeout, $env);
             sleep($this->sleep);
         }
         $this->stdout("Exiting...\n");
@@ -134,6 +138,17 @@ class Controller extends \yii\console\Controller
             $this->stdout($process->getErrorOutput().PHP_EOL);
         } else {
             //TODO logging.
+            if (!empty($this->slack_url)) {
+                $curl = new Curl();
+                $curl->post($this->slack_url, [
+                    'payload' => json_encode([
+                        'username' => 'JOB Bot',
+                        'text' => '*JOB Error!* 
+                        ' . $process->getErrorOutput(),
+                    ])
+                ]);
+            }
+
             $this->stdout($process->getOutput().PHP_EOL);
             $this->stdout($process->getErrorOutput().PHP_EOL);
         }

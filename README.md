@@ -15,11 +15,11 @@ Either run, add:
     "type": "package",
     "package": {
       "name": "vlodkow/yii2-queue",
-      "version": "1.3.1",
+      "version": "1.3.2",
       "source": {
         "url": "git@github.com:vlodkow/yii2-queue.git",
         "type": "git",
-        "reference": "1.3.1"
+        "reference": "1.3.2"
       }
     }
   }],
@@ -42,7 +42,8 @@ return [
     // ...
     'controllerMap' => [
         'queue' => 'Vlodkow\Yii2\Queue\Console\Controller',
-        'sleep' => 2
+        'sleep' => 2,
+        'slack_url' => ''
     ],
 ];
 ```
