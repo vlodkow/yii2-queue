@@ -14,7 +14,7 @@ namespace Vlodkow\Yii2\Queue;
  * @author Petra Barus <petra.barus@gmail.com>
  * @since 2015.02.24
  */
-class Job extends \yii\base\Object
+class Job extends \yii\base\BaseObject
 {
 
     /**

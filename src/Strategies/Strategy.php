@@ -17,7 +17,7 @@ use Vlodkow\Yii2\Queue\Job;
  * @author Petra Barus <petra.barus@gmail.com>
  * @since 2015.02.25
  */
-abstract class Strategy extends \yii\base\Object
+abstract class Strategy extends \yii\base\BaseObject
 {
 
     /**
