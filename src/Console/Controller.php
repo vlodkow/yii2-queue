@@ -24,9 +24,9 @@ use \Curl\Curl;
  *         'queue' => 'Vlodkow\Yii2\Queue\Console\QueueController'
  *     ],
  * ];
- * 
+ *
  * OR
- * 
+ *
  * return [
  *    // ...
  *     'controllerMap' => [
@@ -62,7 +62,7 @@ class Controller extends \yii\console\Controller
      */
     public $sleep = 2;
 
-    public $slack_url = null;
+    public $rocket_chat_url = null;
 
     /**
      * @return void
@@ -91,7 +91,7 @@ class Controller extends \yii\console\Controller
      */
     protected function getScriptPath()
     {
-        return getcwd().DIRECTORY_SEPARATOR.$_SERVER['argv'][0];
+        return getcwd() . DIRECTORY_SEPARATOR . $_SERVER['argv'][0];
     }
 
     /**
@@ -107,8 +107,8 @@ class Controller extends \yii\console\Controller
     {
         $this->stdout("Listening to queue...\n");
         $this->initSignalHandler();
-        $command = PHP_BINARY." {$this->getScriptPath()} {$this->_name}/run";
-        declare(ticks = 1);
+        $command = PHP_BINARY . " {$this->getScriptPath()} {$this->_name}/run";
+        declare(ticks=1);
         $noError = true;
         while ($noError) {
             // Running new process...
@@ -134,25 +134,22 @@ class Controller extends \yii\console\Controller
         $process->run();
         if ($process->isSuccessful()) {
             //TODO logging.
-            $this->stdout($process->getOutput().PHP_EOL);
-            $this->stdout($process->getErrorOutput().PHP_EOL);
+            $this->stdout($process->getOutput() . PHP_EOL);
+            $this->stdout($process->getErrorOutput() . PHP_EOL);
 
             return true;
         } else {
             //TODO logging.
-            if (!empty($this->slack_url)) {
+            if (!empty($this->rocket_chat_url)) {
                 $curl = new Curl();
-                $curl->post($this->slack_url, [
-                    'payload' => json_encode([
-                        'username' => 'JOB Bot',
-                        'text' => '*JOB Error!* 
+                $curl->post($this->rocket_chat_url, [
+                    'text' => '*JOB Error!* 
                         ' . $process->getErrorOutput(),
-                    ])
                 ]);
             }
 
-            $this->stdout($process->getOutput().PHP_EOL);
-            $this->stdout($process->getErrorOutput().PHP_EOL);
+            $this->stdout($process->getOutput() . PHP_EOL);
+            $this->stdout($process->getErrorOutput() . PHP_EOL);
 
             return false;
         }
@@ -189,7 +186,7 @@ class Controller extends \yii\console\Controller
     {
         $job = $this->queue->fetch();
         if ($job !== false) {
-            $this->stdout("Running job #: {$job->id}".PHP_EOL);
+            $this->stdout("Running job #: {$job->id}" . PHP_EOL);
             $this->queue->run($job);
         }
     }
@@ -261,7 +258,7 @@ class Controller extends \yii\console\Controller
         for ($i = 0; $i < $count; $i++) {
             $job = $this->queue->fetch();
             if ($job !== false) {
-                $this->stdout("Peeking job #: {$job->id}".PHP_EOL);
+                $this->stdout("Peeking job #: {$job->id}" . PHP_EOL);
                 $this->stdout(\yii\helpers\Json::encode($job));
             }
         }
@@ -280,7 +277,7 @@ class Controller extends \yii\console\Controller
         for ($i = 0; $i < $count; $i++) {
             $job = $queue->fetch();
             if ($job !== false) {
-                $this->stdout("Purging job #: {$job->id}".PHP_EOL);
+                $this->stdout("Purging job #: {$job->id}" . PHP_EOL);
                 $queue->delete($job);
             }
         }

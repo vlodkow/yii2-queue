@@ -43,7 +43,7 @@ return [
     'controllerMap' => [
         'queue' => 'Vlodkow\Yii2\Queue\Console\Controller',
         'sleep' => 2,
-        'slack_url' => ''
+        'rocket_chat_url' => ''
     ],
 ];
 ```
